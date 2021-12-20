@@ -1,0 +1,40 @@
+{% extends 'social/layout.html' %}
+{% load humanize %}
+{% block content %}
+
+    <header class="main-head">
+    </header>
+{% for post in posts %}
+<div class="main">
+<article>
+    <div class="container-article">
+        <img src="{{ post.user.profile.image.url }}">
+        <div>
+            <h2 class="username"><a href="{% url 'profile' post.user.username %}">{{ post.user.username }}</a></h2>
+            <i class="clock"></i>
+            <time data-time="#">{{ post.timestap|naturaltime }}</time>
+            <div class="post">{{ post.content | linebreaks }}</div>
+        </div>
+    </div>
+   {% if post.image %}
+    <p><img src="{{post.image.url}}" style="margin: 0px 0px 0px 300px;width:400px;max-height:400px;" alt="" ></p>
+      <hr>
+    {% else %}
+    <p></p>
+    {% endif %}
+    <a href="#">Comentarios: {{ post.comments.count }}</a>
+    <a class="btn btn-default" href="{% url 'commentpost' pk=post.pk %}" style="margin: 0px 0px 0px 600px">Comentar</a>
+</article>
+            {% for comment in post.comments.all %}
+            <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+            </div>
+            {% empty %}
+            <p>No hay comentarios :(</p>
+            {% endfor %}
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>GREEN WORLD</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="{% static 'normalize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css'%}">
+</head>
+<body>
+
+	<header class="main-head">
+		<nav class="main">
+			<ul>
+				<li><a class="feed" href="{% url 'home' %}">Inicio</a></li>
+				{% if request.user.is_authenticated %}
+				<li><a class="new" href="{% url 'post' %}">Crear nuevo post</a></li>
+				<li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+				{% else %}
+				<li><a href="{% url 'register' %}">Registrarse</a></li>
+				<li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+				{% endif%}
+				{% if request.user.is_authenticated %}
+				<li><a class="profile" href="{% url 'profile' %}">Mi Perfil</a></li>
+				{% endif %}
+				
+			</ul>
+		</nav>
+	</header>
+
+	{% if messages %}
+		{% for message in messages %}
+		<div class="notification {{ message.tags }}">
+			{{ message }}
+		</div>
+		{% endfor %}
+	{% endif %}
+
+	<!-------------------------------------
+					Navigation Bar 
+	-------------------------------------->
+
+		{% block content %}
+
+		{% endblock content %}
+
+</body>
+</html>
